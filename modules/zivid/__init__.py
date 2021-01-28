@@ -8,6 +8,7 @@ __version__ = zivid._version.get_version(__name__)  # pylint: disable=protected-
 import zivid.firmware
 import zivid.capture_assistant
 import zivid.calibration
+import zivid.experimental
 
 from zivid.application import Application
 from zivid.camera import Camera
