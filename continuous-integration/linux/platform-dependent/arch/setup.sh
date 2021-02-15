@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pacman -Syyu --noconfirm || exit $?
+
 pacman -Syu --noconfirm --needed \
        clang \
        clinfo \
@@ -14,6 +16,7 @@ pacman -Syu --noconfirm --needed \
        python-pip \
        shellcheck \
        sudo \
+       strace \
     || exit $?
 
 function aur_install {
@@ -29,7 +32,7 @@ function aur_install {
     for dep in $IGNORE_DEPS; do
         sed -i s/\'$dep\'//g PKGBUILD || exit $?
     done || exit $?
-    PKGEXT=.pkg.tar sudo -E -u nobody makepkg || exit $?
+    PKGEXT=.pkg.tar sudo -E -u nobody strace makepkg || exit $?
     pacman -U --noconfirm ./*$PACKAGE*.tar || exit $?
     popd || exit $?
     rm -r $TMP_DIR || exit $?
